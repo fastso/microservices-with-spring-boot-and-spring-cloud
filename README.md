@@ -50,3 +50,36 @@ cd microservices/product-service;           ./gradlew build; cd ../..;
 cd microservices/recommendation-service;    ./gradlew build; cd ../..;
 cd microservices/review-service;            ./gradlew build; cd ../..;
 ```
+
+#### Multi-project Builds
+
+##### 1. Create settings.gradle
+
+```text
+include ':microservices:product-service'
+include ':microservices:review-service'
+include ':microservices:recommendation-service'
+include ':microservices:product-composite-service'
+```
+
+##### 2. Copy the generated Gradle executable files from one of the projects
+
+```bash
+cp -r microservices/product-service/gradle .
+cp microservices/product-service/gradlew .
+cp microservices/product-service/gradlew.bat .
+cp microservices/product-service/.gitignore .
+```
+
+##### 3. Remove the generated Gradle executable files in each project
+
+```bash
+find microservices -depth -name "gradle" -exec rm -rfv "{}" \;
+find microservices -depth -name "gradlew*" -exec rm -fv "{}" \;
+```
+
+##### 4. Build
+
+```bash
+./gradlew build
+```
